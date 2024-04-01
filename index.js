@@ -28,7 +28,7 @@ app.use((req, res, next) => {
   console.log('Solicitud recibida:', req.method, req.url);
   console.log('Cuerpo de la solicitud:', req.body);
 
-  const allowedOrigins = ['http://localhost:3000/admin', 'http://localhost:3000'];
+  const allowedOrigins = ['https://cristiansanchez2715.github.io/admin', 'https://cristiansanchez2715.github.io'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin);

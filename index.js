@@ -80,10 +80,10 @@ io.on("connection", (socket) => {
 
 
 const connection = mysql.createConnection({
-'host': "127.0.0.1",
-'user': 'root',
-'password': 'spizamarillo2715',
-'database': 'mcdonalds'
+'host': "be1zdultmwmtzebubor1-mysql.services.clever-cloud.com",
+'user': 'uve5eoacxovowuli',
+'password': 'dgsnebFKs2Q31gjhsfJd',
+'database': 'be1zdultmwmtzebubor1'
 
 })
 
@@ -117,6 +117,27 @@ app.post('/dataBaseSend', (req, res) => {
     }
     console.log('Datos insertados en la tabla Pedidos');
     res.status(200).json({ message: 'Datos insertados correctamente en la tabla Pedidos' });
+  });
+});
+
+
+
+
+// enviar pedidos al admin
+
+
+app.get('/dataBaseGet', (req, res) => {
+ 
+  // Enviador datos al frontend
+  const sql = 'SELECT id, table_number, products, totalPayOrder FROM pedidos';
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.error('Error al enviar datos al administrador', err);
+      res.status(500).json({ error: 'Error interno del servidor' });
+      return;
+    }
+    console.log('Datos enviados al administrador');
+    res.status(200).json(result);
   });
 });
 

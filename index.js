@@ -69,6 +69,22 @@ io.on("connection", (socket) => {
     // Aquí puedes procesar el pedido y enviarlo a la cocina, guardar en una base de datos, etc.
     // Por ejemplo, puedes emitir un evento para notificar a la cocina sobre el nuevo pedido.
     io.emit("pedidoALaCocina", data);
+    const { products, table, pay } = data;
+
+    // Convertir el objeto products a una cadena JSON
+    const productsJSON = JSON.stringify(products);
+   
+    // Insertar datos en la tabla Pedidos
+    const sql = 'INSERT INTO pedidos ( table_number, products, pay) VALUES (?, ?, ?)';
+    connection.query(sql, [table, productsJSON,  pay], (err, result) => {
+      if (err) {
+        console.error('Error al insertar datos en la tabla Pedidos:', err);
+        res.status(500).json({ error: 'Error interno del servidor' });
+        return;
+      }
+      console.log('Datos insertados en la tabla Pedidos');
+      res.status(200).json({ message: 'Datos insertados correctamente en la tabla Pedidos' });
+    });
   });
 });
 
@@ -100,25 +116,25 @@ connection.connect((err) => {
 //   console.log("server 2 conected")
 // })
 
-app.post('/dataBaseSend', (req, res) => {
-  console.log("esto esta llegando al backend" + JSON.stringify(req.body.data))
-  const { products, table, pay } = req.body.data;
+// app.post('/dataBaseSend', (req, res) => {
+//   console.log("esto esta llegando al backend" + JSON.stringify(req.body.data))
+//   const { products, table, pay } = req.body.data;
 
-  // Convertir el objeto products a una cadena JSON
-  const productsJSON = JSON.stringify(products);
+//   // Convertir el objeto products a una cadena JSON
+//   const productsJSON = JSON.stringify(products);
  
-  // Insertar datos en la tabla Pedidos
-  const sql = 'INSERT INTO pedidos (products, table_number, pay) VALUES (?, ?, ?)';
-  connection.query(sql, [productsJSON, table, pay], (err, result) => {
-    if (err) {
-      console.error('Error al insertar datos en la tabla Pedidos:', err);
-      res.status(500).json({ error: 'Error interno del servidor' });
-      return;
-    }
-    console.log('Datos insertados en la tabla Pedidos');
-    res.status(200).json({ message: 'Datos insertados correctamente en la tabla Pedidos' });
-  });
-});
+//   // Insertar datos en la tabla Pedidos
+//   const sql = 'INSERT INTO pedidos (products, table_number, pay) VALUES (?, ?, ?)';
+//   connection.query(sql, [productsJSON, table, pay], (err, result) => {
+//     if (err) {
+//       console.error('Error al insertar datos en la tabla Pedidos:', err);
+//       res.status(500).json({ error: 'Error interno del servidor' });
+//       return;
+//     }
+//     console.log('Datos insertados en la tabla Pedidos');
+//     res.status(200).json({ message: 'Datos insertados correctamente en la tabla Pedidos' });
+//   });
+// });
 
 
 

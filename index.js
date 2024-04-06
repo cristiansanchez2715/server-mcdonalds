@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 
 const corsOptions = {
   // origin: 'https://diningexperiencesource.shop', // Reemplaza con la URL de tu aplicación frontend
-  origin: "*",
+  origin:  ['https://cristiansanchez2715.github.io/admin', 'https://cristiansanchez2715.github.io'],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,

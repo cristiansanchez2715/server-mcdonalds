@@ -80,7 +80,7 @@ io.on("connection", (socket) => {
     const productsJSON = JSON.stringify(products);
    
     // Insertar datos en la tabla Pedidos
-    const sql = 'INSERT INTO pedidos ( table_number, products, pay) VALUES (?, ?, ?)';
+    const sql = 'INSERT INTO pedidos ( table_number, products, totalPayOrder) VALUES (?, ?, ?)';
     connection.query(sql, [table, productsJSON,  pay], (err, result) => {
       if (err) {
         console.error('Error al insertar datos en la tabla Pedidos:', err);
@@ -104,8 +104,8 @@ const connection = mysql.createConnection({
 'host': "be1zdultmwmtzebubor1-mysql.services.clever-cloud.com",
 'user': 'uve5eoacxovowuli',
 'password': 'dgsnebFKs2Q31gjhsfJd',
-'database': 'be1zdultmwmtzebubor1'
-
+'database': 'be1zdultmwmtzebubor1',
+'port': 3306
 })
 
 connection.connect((err) => {
@@ -115,6 +115,47 @@ connection.connect((err) => {
     console.log("Conexión a la base de datos establecida");
   }
 });
+
+
+
+
+
+// enviar pedidos al admin
+
+
+app.get('/dataBaseGet', (req, res) => {
+ 
+  // Enviador datos al frontend
+  const sql = 'SELECT id, table_number, products, totalPayOrder FROM pedidos';
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.error('Error al enviar datos al administrador', err);
+      res.status(500).json({ error: 'Error interno del servidor' });
+      return;
+    }
+    console.log('Datos enviados al administrador');
+    res.status(200).json(result);
+  });
+});
+
+// Configurar el servidor para escuchar en el puerto 4000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // app.listen(port2, () => {
@@ -141,25 +182,3 @@ connection.connect((err) => {
 //   });
 // });
 
-
-
-
-// enviar pedidos al admin
-
-
-app.get('/dataBaseGet', (req, res) => {
- 
-  // Enviador datos al frontend
-  const sql = 'SELECT id, table_number, products, totalPayOrder FROM pedidos';
-  connection.query(sql, (err, result) => {
-    if (err) {
-      console.error('Error al enviar datos al administrador', err);
-      res.status(500).json({ error: 'Error interno del servidor' });
-      return;
-    }
-    console.log('Datos enviados al administrador');
-    res.status(200).json(result);
-  });
-});
-
-// Configurar el servidor para escuchar en el puerto 4000

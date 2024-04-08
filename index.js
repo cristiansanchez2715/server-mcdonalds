@@ -66,6 +66,8 @@ app.get("/", (req, res) => {
   res.send("el servidor funciona");
 });
 
+
+
 io.on("connection", (socket) => {
   console.log("Cliente conectado");
 
@@ -84,14 +86,44 @@ io.on("connection", (socket) => {
     connection.query(sql, [table, productsJSON,  pay], (err, result) => {
       if (err) {
         console.error('Error al insertar datos en la tabla Pedidos:', err);
-        res.status(500).json({ error: 'Error interno del servidor' });
+        // Enviar mensaje de error al cliente a través del socket
+        socket.emit('error', 'Error al insertar datos en la tabla Pedidos');
         return;
       }
       console.log('Datos insertados en la tabla Pedidos');
-      res.status(200).json({ message: 'Datos insertados correctamente en la tabla Pedidos' });
+      // Enviar mensaje de éxito al cliente a través del socket
+      socket.emit('success', 'Datos insertados correctamente en la tabla Pedidos');
     });
   });
 });
+
+
+// io.on("connection", (socket) => {
+//   console.log("Cliente conectado");
+
+//   socket.on('nuevoPedido', (data) => {
+//     console.log("Nuevo pedido desde el cliente:", data);
+//     // Aquí puedes procesar el pedido y enviarlo a la cocina, guardar en una base de datos, etc.
+//     // Por ejemplo, puedes emitir un evento para notificar a la cocina sobre el nuevo pedido.
+//     io.emit("pedidoALaCocina", data);
+//     const { products, table, pay } = data;
+
+//     // Convertir el objeto products a una cadena JSON
+//     const productsJSON = JSON.stringify(products);
+   
+//     // Insertar datos en la tabla Pedidos
+//     const sql = 'INSERT INTO pedidos ( table_number, products, totalPayOrder) VALUES (?, ?, ?)';
+//     connection.query(sql, [table, productsJSON,  pay], (err, result) => {
+//       if (err) {
+//         console.error('Error al insertar datos en la tabla Pedidos:', err);
+//         res.status(500).json({ error: 'Error interno del servidor' });
+//         return;
+//       }
+//       console.log('Datos insertados en la tabla Pedidos');
+//       res.status(200).json({ message: 'Datos insertados correctamente en la tabla Pedidos' });
+//     });
+//   });
+// });
 
 
 

@@ -129,9 +129,14 @@ app.get('/dataBaseGet', (req, res) => {
 // Configurar el servidor para escuchar en el puerto 4000
 
 app.put('/cleanDataBase', (req, res) => {
-  const sql = "DELETE FROM pedidos;"
-  if(err){
-    console.error("error al borrar los pedidos de la tabla")
-  }
-  console.log("se han eliminado todos los pedidos de la tabla correctamente")
-})
+  const sql = "DELETE FROM pedidos;";
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error al borrar los pedidos de la tabla:", err);
+      res.status(500).json({ error: "Error interno del servidor" });
+      return;
+    }
+    console.log("Se han eliminado todos los pedidos de la tabla correctamente");
+    res.status(200).json({ message: "Pedidos eliminados correctamente" });
+  });
+});

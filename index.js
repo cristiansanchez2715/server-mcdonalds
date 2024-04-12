@@ -69,14 +69,14 @@ io.on("connection", (socket) => {
     // Aquí puedes procesar el pedido y enviarlo a la cocina, guardar en una base de datos, etc.
     // Por ejemplo, puedes emitir un evento para notificar a la cocina sobre el nuevo pedido.
     io.emit("pedidoALaCocina", data);
-    const {products, table, pay, date} = data;
+    const {products, table, pay} = data;
 
     // Convertir el objeto products a una cadena JSON
     const productsJSON = JSON.stringify(products);
    
     // Insertar datos en la tabla Pedidos
-    const sql = 'INSERT INTO pedidos (table_number, products, totalPayOrder, date) VALUES (?, ?, ?, ?)';
-    connection.query(sql, [table, productsJSON,  pay, date], (err, result) => {
+    const sql = 'INSERT INTO pedidos (table_number, products, totalPayOrder) VALUES (?, ?, ?)';
+    connection.query(sql, [table, productsJSON,  pay], (err, result) => {
       if (err) {
         console.error('Error al insertar datos en la tabla Pedidos:', err);
         // Enviar mensaje de error al cliente a través del socket

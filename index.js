@@ -93,10 +93,10 @@ io.on("connection", (socket) => {
 // CONFIGURACIONES A LA BASE DE DATOS
 
 const connection = mysql.createConnection({
-'host': "be1zdultmwmtzebubor1-mysql.services.clever-cloud.com",
-'user': 'uve5eoacxovowuli',
-'password': 'dgsnebFKs2Q31gjhsfJd',
-'database': 'be1zdultmwmtzebubor1',
+'host': "b8d1amcp16oqfzl3peey-mysql.services.clever-cloud.com",
+'user': 'umhtwogrmnehnwne',
+'password': 'ljzTECX2TkwBUuY8yGoZ',
+'database': 'b8d1amcp16oqfzl3peey',
 'port': 3306
 })
 

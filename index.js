@@ -128,3 +128,10 @@ app.get('/dataBaseGet', (req, res) => {
 
 // Configurar el servidor para escuchar en el puerto 4000
 
+app.put('/cleanDataBase', (req, res) => {
+  const sql = "DELETE FROM pedidos;"
+  if(err){
+    console.error("error al borrar los pedidos de la tabla")
+  }
+  console.log("se han eliminado todos los pedidos de la tabla correctamente")
+})
